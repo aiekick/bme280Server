@@ -1,6 +1,3 @@
-AM_DISTCHECK_CONFIGURE_FLAGS = \
-  --with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)
-  
 ACLOCAL_AMFLAGS = -I m4
 
 AM_CPPFLAGS = -I$(top_srcdir)/libs/BME280_driver \
@@ -75,10 +72,13 @@ bme280Server_SOURCES =  \
 	
 bme280Server_CXXFLAGS = @CXXFLAGS@ -pthread
 
-## bme280Server.service
-SERVICE_SUBS = \
-    s,[@]VARIABLE_NAME[@],$(VARIABLE_NAME),g; \
-    s,[@]OTHER_VARIABLE[@],$(OTHER_VARIABLE),g
-
-bme280Server.service: bme280Server.service.tmp
-    $(SED) -e '$(SERVICE_SUBS)' < $< > $@
+install:
+	mkdir -p /usr/share/bme280Server
+	cp bme280Server /usr/share/bme280Server/
+	chmod u+x /usr/share/bme280Server/bme280Server
+	cp bme280Server.service /usr/share/bme280Server/
+	$(shell test -e | rm /etc/systemd/system/bme280Server.service)	
+	ln -s /usr/share/bme280Server/bme280Server.service /etc/systemd/system/bme280Server.service
+	sudo systemctl daemon-reload
+	sudo systemctl enable bme280Server.service
+	sudo systemctl start bme280Server.service

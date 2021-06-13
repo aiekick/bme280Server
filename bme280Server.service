@@ -1,0 +1,11 @@
+[Unit]
+Description=bme280Server : a http server who expose bme280 datas on url query
+
+[Service]
+User=root
+WorkingDirectory=/usr/share/bme280Server
+ExecStart=/usr/share/bme280Server/bme280Server -b /dev/i2c-1 -d /usr/share/bme280Server/database.db3 -t 10 -p 80
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
