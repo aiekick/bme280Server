@@ -47,9 +47,6 @@ std::string MeasureDataBase::GetHistoryToJson(const int& vCountLasts)
 			}
 			else
 			{
-				std::ostringstream os; os << vCountLasts;
-				jsonResult += "\"count\":" + os.str() + ",\"history\":[\n";
-
 				int rowID = 0;
 				while (sqlite3_step(statement) == SQLITE_ROW)
 				{
@@ -67,7 +64,8 @@ std::string MeasureDataBase::GetHistoryToJson(const int& vCountLasts)
 					}
 				}
 
-				jsonResult += "\n]";
+				std::ostringstream os; os << (rowID + 1);
+				jsonResult = "\"count\":" + os.str() + ",\"history\":[\n" + jsonResult + "\n]";
 
 				sqlite3_finalize(statement);
 			}

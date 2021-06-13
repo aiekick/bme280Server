@@ -208,10 +208,10 @@ void SensorHttpServer::Defaultpage(uv::http::Request& /*req*/, uv::http::Respons
 					<div class="content">
 						<h2>Available datas per measures</h2>
 						<ul>
-							<li>Epoch time in seconds</li>
-							<li>Temperature in °C</li>
-							<li>Pressure in hPa</li>
-							<li>Humidity in %</li>
+							<li>Epoch time (seconds)</li>
+							<li>Temperature (Celsius)</li>
+							<li>Pressure (hPa)</li>
+							<li>Humidity (%)</li>
 						</ul>
 					</div>
 				</div>
@@ -223,13 +223,13 @@ void SensorHttpServer::Defaultpage(uv::http::Request& /*req*/, uv::http::Respons
 						<ul>
 							<li>
 								<div class="link">
-									<p>Start a measure of the sensor.</p>
+									<p>Start a measure of the sensor</p>
 									<p>Ex : <a href="/sensor">http://ip:port/sensor</a></p>
 								</div>
 							</li>
 							<li>
 								<div class="link">
-									<p>Retrieve an history of last N hourly sensor measures.</p>
+									<p>Retrieve an history of last N hourly sensor measures</p>
 									<p>Ex : <a href="/history:12">http://ip:port/history:N (here n is 12)</a></p>
 								</div>
 							</li>
