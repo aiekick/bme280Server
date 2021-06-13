@@ -35,8 +35,6 @@ std::string MeasureDataBase::GetHistoryToJson(const int& vCountLasts)
 	// retrieving of last N record from Db, and format them in json format
 	if (OpenDB())
 	{
-		static char buffer[1024 + 1] = "";
-
 		try
 		{
 			// we must create the table

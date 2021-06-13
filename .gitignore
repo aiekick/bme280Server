@@ -7,6 +7,24 @@
 *.o
 *.obj
 
+# configuration
+aclocal.m4
+bme280Server
+config.log
+depcomp
+compile
+configure
+config.guess
+config.status
+config.sub
+missing
+Makefile
+Makefile.in
+autom4te.cache
+.deps
+*.Po
+.dirstamp
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -30,3 +48,4 @@
 *.exe
 *.out
 *.app
+/install-sh

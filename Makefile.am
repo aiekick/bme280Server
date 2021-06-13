@@ -69,16 +69,25 @@ bme280Server_SOURCES =  \
 	src/SensorHttpServer.cpp \
 	src/SensorHttpServer.h \
 	src/main.cpp
-	
+
 bme280Server_CXXFLAGS = @CXXFLAGS@ -pthread
 
-install-data-am:
+install-service:
 	mkdir -p /usr/share/bme280Server
-	cp bme280Server /usr/share/bme280Server/
+	cp $(srcdir)/bme280Server /usr/share/bme280Server/
 	chmod u+x /usr/share/bme280Server/bme280Server
-	cp bme280Server.service.in /usr/share/bme280Server/bme280Server.service
-	$$(shell test -e | rm /etc/systemd/system/bme280Server.service)	
+	cp $(srcdir)/bme280Server.service /usr/share/bme280Server/
+	rm /etc/systemd/system/bme280Server.service 2> /dev/null || true
 	ln -s /usr/share/bme280Server/bme280Server.service /etc/systemd/system/bme280Server.service
-	sudo systemctl daemon-reload
-	sudo systemctl enable bme280Server.service
-	sudo systemctl start bme280Server.service
+	systemctl daemon-reload
+	systemctl enable bme280Server.service
+	systemctl start bme280Server.service
+
+uninstall-service:
+	systemctl stop bme280Server.service
+	systemctl disable bme280Server.service
+	systemctl daemon-reload
+	rm /usr/share/bme280Server/bme280Server
+	rm /usr/share/bme280Server/bme280Server.service
+	rm /etc/systemd/system/bme280Server.service
+

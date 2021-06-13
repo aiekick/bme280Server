@@ -48,7 +48,7 @@ int8_t UserI2cRead(uint8_t reg_addr, uint8_t* data, uint32_t len, void* intf_ptr
     return 0;
 }
 
-void UserDelayUs(uint32_t period, void* intf_ptr)
+void UserDelayUs(uint32_t period, void* /*intf_ptr*/)
 {
     usleep(period);
 }
@@ -146,14 +146,16 @@ bool SensorBME280::GetSensorBME280Datas(SensorBME280DatasStruct *vSensorBME280Da
     if ((id.fd = open(m_I2cBus.c_str(), O_RDWR)) < 0)
     {
         fprintf(stderr, "Failed to open the i2c bus %s\n", m_I2cBus.c_str());
-        return false;
+        exit(1); // the service will restart
+        //return false;
     }
 
     id.dev_addr = BME280_I2C_ADDR_PRIM;
     if (ioctl(id.fd, I2C_SLAVE, id.dev_addr) < 0)
     {
         fprintf(stderr, "Failed to acquire bus access and/or talk to slave.\n");
-        return false;
+        exit(1); // the service will restart
+        //return false;
     }
 
     struct bme280_dev dev;
@@ -167,7 +169,8 @@ bool SensorBME280::GetSensorBME280Datas(SensorBME280DatasStruct *vSensorBME280Da
     if (rslt != BME280_OK)
     {
         fprintf(stderr, "Failed to initialize the device (code %+d).\n", rslt);
-        return false;
+        exit(1); // the service will restart
+        //return false;
     }
 
     usleep(9000);
@@ -178,6 +181,8 @@ bool SensorBME280::GetSensorBME280Datas(SensorBME280DatasStruct *vSensorBME280Da
         fprintf(stderr, "Failed to stream sensor data (code %+d).\n", rslt);
         return false;
     }
+
+    close(id.fd);
 
 	return true;
 }

@@ -8,6 +8,7 @@ rm *.sub
 rm *.status
 rm *.guess
 rm install-sh
+rm bme280Server.service
 rm compile
 rm depcomp 
 rm missing
