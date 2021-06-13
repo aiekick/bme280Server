@@ -1,6 +1,21 @@
 #!/bin/bash
 
-rm *.o *.m4 *.log *.in *.tar.gz depcomp configure install-sh Makefile compile *.status missing *.guess *.sub
-rm -R autom4te.cache .deps bme280server-0.1
+rm *.o 
+rm *.m4 
+rm *.log 
+rm *.tar.gz 
+rm *.sub
+rm *.status
+rm *.guess
+rm install-sh
+rm compile
+rm depcomp 
+rm missing
+rm configure
+rm Makefile 
+rm Makefile.in
+rm -R autom4te.cache 
+rm -R .deps 
+rm -R bme280server-0.1
 
 
