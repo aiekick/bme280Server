@@ -1,0 +1,11 @@
+[Unit]
+Description=a http server who will give bme280 datas on url query
+
+[Service]
+User=root
+WorkingDirectory=@prefix@
+ExecStart=@prefix@/bme280Server -b /dev/i2c-1 -d @prefix@/database.db3 -t 10 -p 80
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
