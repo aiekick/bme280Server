@@ -18,5 +18,6 @@ rm Makefile.in
 rm -R autom4te.cache 
 rm -R .deps 
 rm -R bme280server-0.1
-
-
+rm bme280Server
+rm COPYING
+rm INSTALL
