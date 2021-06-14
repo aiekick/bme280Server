@@ -168,7 +168,7 @@ bool parse_commands(int *vArgc, char** vArgs, std::string* vI2cBus, uint32_t *vP
 int main(int argc, char** args)
 {
 	std::string default_i2cbus = "/dev/i2c-1";
-	std::string default_db_file = "db.db3";
+	std::string default_db_file = "database.db3";
 	uint64_t default_save_in_db_delay = 3600U;
 	uint32_t default_port = 80;
 

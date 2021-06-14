@@ -35,44 +35,50 @@ std::string MeasureDataBase::GetHistoryToJson(const int& vCountLasts)
 	// retrieving of last N record from Db, and format them in json format
 	if (OpenDB())
 	{
-		try
+		// we must create the table
+		std::string select_query = "select * from tbl_bme280_sensor_history order by epoc_time desc limit " + toStr(vCountLasts) + ";";
+		std::vector<std::string> jsonLines;	jsonLines.resize(vCountLasts);
+		sqlite3_stmt* statement = nullptr;
+		if (sqlite3_prepare_v2(m_SqliteDB, select_query.c_str(), -1, &statement, NULL) != SQLITE_OK)
 		{
-			// we must create the table
-			std::string select_query = "select * from tbl_bme280_sensor_history order by epoc_time desc limit " + toStr(vCountLasts) + ";";
-			std::vector<std::string> jsonLines;	jsonLines.resize(vCountLasts);
-			sqlite3_stmt* statement = nullptr;
-			if (sqlite3_prepare_v2(m_SqliteDB, select_query.c_str(), -1, &statement, NULL) != SQLITE_OK)
+			printf("Fail to select last sensor records in database : %s\n", sqlite3_errmsg(m_SqliteDB));
+		}
+		else
+		{
+			int rowID = 0;
+			try
 			{
-				printf("Fail to select last sensor records in database : %s\n", sqlite3_errmsg(m_SqliteDB));
-			}
-			else
-			{
-				int rowID = 0;
+				std::string lastLine;
 				while (sqlite3_step(statement) == SQLITE_ROW)
 				{
-					char* epoc = (char*)sqlite3_column_text(statement, 0); // can raise an exception for out of memory
-					char* temp = (char*)sqlite3_column_text(statement, 1); // can raise an exception for out of memory
-					char* pres = (char*)sqlite3_column_text(statement, 2); // can raise an exception for out of memory
-					char* humi = (char*)sqlite3_column_text(statement, 3); // can raise an exception for out of memory
+					auto epoc = (char*)sqlite3_column_text(statement, 0); // can raise an exception for out of memory
+					auto temp = (char*)sqlite3_column_text(statement, 1); // can raise an exception for out of memory
+					auto pres = (char*)sqlite3_column_text(statement, 2); // can raise an exception for out of memory
+					auto humi = (char*)sqlite3_column_text(statement, 3); // can raise an exception for out of memory
 
 					if (strlen(epoc) && strlen(temp) && strlen(pres) && strlen(humi))
 					{
-						if (rowID++)
+						if (!jsonResult.empty())
 							jsonResult += ",";
 
-						jsonResult += SensorBME280::ConvertSensorBME280DatasToJSON(epoc, temp, pres, humi);
+						lastLine = SensorBME280::ConvertSensorBME280DatasToJSON(epoc, temp, pres, humi);
+						if (!lastLine.empty())
+						{
+							jsonResult += lastLine;
+							rowID++;
+						}
 					}
 				}
-
-				std::ostringstream os; os << (rowID + 1);
-				jsonResult = "\"count\":" + os.str() + ",\"history\":[\n" + jsonResult + "\n]";
-
-				sqlite3_finalize(statement);
 			}
-		}
-		catch (std::exception& ex)
-		{
-			printf("Err : %s", ex.what());
+			catch (std::exception& ex)
+			{
+				printf("Err : %s", ex.what());
+			}
+
+			std::ostringstream os; os << rowID;
+			jsonResult = "\"count\":" + os.str() + ",\"history\":[\n" + jsonResult + "\n]";
+
+			sqlite3_finalize(statement);
 		}
 
 		CloseDB();

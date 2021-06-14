@@ -12,7 +12,7 @@
 #include <ctime>        
 #include <functional>
 
-#define BUFFER_LENGTH 1024
+#define BUFFER_LENGTH 512
 static char buffer[BUFFER_LENGTH + 1] = "";
 
 #ifdef UNIX
@@ -228,6 +228,11 @@ std::string SensorBME280::ConvertSensorBME280DatasToJSON(const uint64_t& vEpoc, 
         "{\"epoc\":%zu,\"temp\":%f,\"pres\":%f,\"humi\":%f}",
 #endif
         vEpoc, vTemp, vPres, vHumi);
+    if (n <= 0)
+    {
+        printf("Err : n <= 0 in ConvertSensorBME280DatasToJSON");
+        return "";
+    }
     return std::string(buffer, n);
 }
 
@@ -236,6 +241,11 @@ std::string SensorBME280::ConvertSensorBME280DatasToJSON(const char* vEpoc, cons
     int n = snprintf(buffer, BUFFER_LENGTH,
         "{\"epoc\":%s,\"temp\":%s,\"pres\":%s,\"humi\":%s}",
         vEpoc, vTemp, vPres, vHumi);
+    if (n <= 0)
+    {
+        printf("Err : n <= 0 in ConvertSensorBME280DatasToJSON");
+        return "";
+    }
     return std::string(buffer, n);
 }
 
