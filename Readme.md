@@ -15,13 +15,17 @@
  just do :
 
  ./configure
+ 
  make
+ 
  sudo make install
+ 
  sudo make install-service
  
  ## hwo to uninstall
  
  sudo make uninstall-service
+ 
  sudo make uninstall
  
  
