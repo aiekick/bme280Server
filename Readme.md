@@ -4,7 +4,7 @@
  
  ## Uses
  
- ```cpp
+ ```
  usage : bme280Server [-h] [-v] [-b i2cbus] [-p http_port] [-d database_file] [-t sensor_save_in_db_delay_in_seconds]
 
 Options :
