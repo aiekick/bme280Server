@@ -31,18 +31,29 @@ Options :
      - Do logging each delay, a bm280 measure in a local sqlite database
  ```
  
+ ## dependencies
+ 
+ you need libuv1.0 and libsqlite3 (you
+
+ ```
+ sudo apt-get update
+ sudo apt-get install libsqlite3-dev libuv1.dev
+ ```
+ 
  ## how to generate configure file
  
+ ```
  ./gen_configure.sh
+ ```
  
  ## how to build and install
  
  after ./gen_configure.sh
 
- you need libuv1.0 and libsqlite3
 
  just do :
 
+ ```
  ./configure
  
  make
@@ -50,12 +61,15 @@ Options :
  sudo make install
  
  sudo make install-service
+ ```
  
  ## how to uninstall
  
+ ```
  sudo make uninstall-service
  
  sudo make uninstall
+ ```
  
  ## modifications
  
