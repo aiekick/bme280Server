@@ -39,6 +39,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Configure
+      run: ./gen_configure.sh
+      
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
