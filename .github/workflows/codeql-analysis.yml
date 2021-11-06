@@ -39,8 +39,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Configure
-      run: ./gen_configure.sh && ./configure
+    - name: apt update
+      run: sudo apt-get update
+    - name: install libuv and libsqlite3
+      run: sudo apt-get install libsqlite3-dev libuv1.dev
+    - name: Create Configure
+      run: ./gen_configure.sh
+    - name: Run Configure
+      run: ./configure
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
